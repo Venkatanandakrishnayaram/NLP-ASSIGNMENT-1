@@ -1,0 +1,98 @@
+=== Q3. Manual BPE on a Toy Corpus ===
+
+3.1 Initial Vocabulary (characters + _):
+_, d, e, i, l, n, o, r, s, t, w
+
+--- First three merges (toy corpus) ---
+
+Step 1: merge e+r (count=9)
+Snippet after merge:
+l o w _
+l o w _
+l o w _
+l o w _
+l o w _
+l o w e s t _
+
+Step 2: merge er+_ (count=9)
+Snippet after merge:
+l o w _
+l o w _
+l o w _
+l o w _
+l o w _
+l o w e s t _
+
+Step 3: merge n+e (count=8)
+Snippet after merge:
+l o w _
+l o w _
+l o w _
+l o w _
+l o w _
+l o w e s t _
+
+3.1 Vocabulary snapshots (first 20 symbols shown):
+After step 1 (merged e+r): vocab_size=11, head=['_', 'd', 'e', 'er', 'i', 'l', 'n', 'o', 's', 't', 'w']
+After step 2 (merged er+_): vocab_size=11, head=['_', 'd', 'e', 'er_', 'i', 'l', 'n', 'o', 's', 't', 'w']
+After step 3 (merged n+e): vocab_size=11, head=['_', 'd', 'e', 'er_', 'i', 'l', 'ne', 'o', 's', 't', 'w']
+
+=== 3.2 Mini-BPE learner (toy corpus) ===
+Top pair and vocab size at each step:
+Step  1: top pair e+r (count=9), vocab_size=11
+Step  2: top pair er+_ (count=9), vocab_size=11
+Step  3: top pair n+e (count=8), vocab_size=11
+Step  4: top pair ne+w (count=8), vocab_size=11
+Step  5: top pair l+o (count=7), vocab_size=11
+Step  6: top pair lo+w (count=7), vocab_size=10
+Step  7: top pair new+er_ (count=6), vocab_size=10
+Step  8: top pair low+_ (count=5), vocab_size=11
+Step  9: top pair w+i (count=3), vocab_size=12
+Step 10: top pair wi+d (count=3), vocab_size=11
+Step 11: top pair wid+er_ (count=3), vocab_size=10
+Step 12: top pair low+e (count=2), vocab_size=9
+Step 13: top pair lowe+s (count=2), vocab_size=8
+Step 14: top pair lowes+t (count=2), vocab_size=7
+Step 15: top pair lowest+_ (count=2), vocab_size=6
+Step 16: top pair new+_ (count=2), vocab_size=6
+
+Segmentations (using learned merges):
+new -> new_
+newer -> newer_
+lowest -> lowest_
+widest -> wid e s t _
+newestest -> new e s t e s t _
+
+Explanation notes:
+- Subword tokens handle OOV by composing unseen words from seen pieces (e.g., new + er_).
+- Morpheme alignment example: 'er_' often matches the English comparative/agent suffix.
+
+=== 3.3 BPE on a paragraph (English) ===
+Five most frequent merges chosen first:
+1. s+_
+2. o+r
+3. a+r
+4. e+r
+5. e+n
+
+Five longest subword tokens after training:
+- ation_
+- ation
+- and_
+- ion
+- ear
+
+Segmentations of selected words:
+tokenization -> to k en iz ation_
+hyphenation -> h y p h en ation_
+morphology -> m orp h o l o g y_
+hyperparameters -> h y p er p ar a me t er s_
+re-tokenization -> re - to k en iz ation_
+
+Reflection (5–8 sentences):
+The learned subwords include frequent stems (e.g., 'token'), suffix-like endings (e.g., 'tion_'), and occasional whole words.
+BPE helps with OOV because new words can be composed from known parts; for example, 'newestest_' can be built as 'new' + 'est' + 'est' + '_' even if the exact word was never seen.
+A pro is that it reduces the vocabulary size substantially while maintaining coverage; another pro is capturing useful morphemes (like '-ing_', '-tion_', or 're-').
+A con is that boundaries are frequency-driven, not linguistic, so some splits are unintuitive or cut through morphemes.
+Another con is domain sensitivity: merges trained on one domain may not generalize and can yield odd segmentations elsewhere.
+Overall, subword tokenization offers a robust compromise between character and word models, especially for rare or creative word forms.
