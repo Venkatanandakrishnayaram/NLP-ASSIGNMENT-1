@@ -59,7 +59,8 @@ By working through these tasks, we get exposure to:
   - DNA/protein alignment prefers **Model B**, where insertions/deletions dominate.
     Reflections
 
-### Preprocessing: Small differences in tokenization can lead to large differences in analysis.
+### Preprocessing: 
+Small differences in tokenization can lead to large differences in analysis.
 
 NER: Works well for common names and dates but may miss domain-specific terms.
 
