@@ -1,7 +1,7 @@
 from pathlib import Path
 
 # Content of the README file
-readme_content = """# NLP Assignment
+readme_content = NLP Assignment
 
 ## Student Information
 - **Name**: [venkata nanda krishna yaram]  
