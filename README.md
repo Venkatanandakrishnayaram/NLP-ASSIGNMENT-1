@@ -56,4 +56,21 @@ By working through these tasks, we get exposure to:
 - **Operations**: Insertions and deletions were more cost-effective than substitutions.  
 - **Reflections**:  
   - Spell-checkers prefer **Model A** since substitutions are cheap.  
-  - DNA/protein alignment prefers **Model B**, where insertions/deletions dominate.  
+  - DNA/protein alignment prefers **Model B**, where insertions/deletions dominate.
+    Reflections
+
+### Preprocessing: Small differences in tokenization can lead to large differences in analysis.
+
+NER: Works well for common names and dates but may miss domain-specific terms.
+
+Subword Models (BPE): Greatly reduce the out-of-vocabulary problem by breaking rare words into smaller units.
+
+Edit Distance: Highlights how alignment cost choices can shift application suitability.
+
+Overall: The assignment bridges theory (manual edits, DP table) with practice (libraries and automation).
+
+### Conclusion:
+
+This assignment provided hands-on experience with essential NLP techniques. From splitting raw text into tokens, recognizing entities, reducing words to their base forms, to aligning strings with edit distance — these tasks show how foundational techniques power advanced systems like search engines, machine translation, and spell checkers.
+
+By implementing both manual steps and automated tools, the project reinforced the importance of understanding both low-level linguistic details and high-level algorithmic trade-offs.
